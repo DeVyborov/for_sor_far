@@ -94,5 +94,15 @@ namespace vyborov_test_1
         {
             Application.Exit();
         }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            StaticVars.user_id = "0";
+            StaticVars.user_role = "0";
+
+            this.Hide();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+        }
     }
 }

@@ -23,14 +23,43 @@ namespace vyborov_test_1.Forms
         {
             try
             {
-                SQLclass.OpenConnection();
+                UpdateData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM auth", SQLclass.str);
-                DataSet ds = new DataSet();
-                adapter.Fill(ds);
+        public void UpdateData()
+        {
+            SQLclass.OpenConnection();
 
-                dataGridView1.DataSource = ds.Tables[0];
-                SQLclass.CloseConnection();
+            SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM auth", SQLclass.str);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds);
+
+            dataGridView1.DataSource = ds.Tables[0];
+            SQLclass.CloseConnection();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(textBox1.Text != "" && textBox2.Text != "" && comboBox1.SelectedIndex != -1)
+                {
+                    SQLclass.OpenConnection();
+
+                    SqlCommand cmd = new SqlCommand("INSERT INTO auth(login,password,role) VALUES ('"+textBox1.Text+"', '"+textBox2.Text+"', '"+(comboBox1.SelectedIndex+1)+"')", SQLclass.str);
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Новый пользователь успешно добавлен!");
+
+                    SQLclass.CloseConnection();
+
+                    UpdateData();
+                }             
             }
             catch (Exception ex)
             {
