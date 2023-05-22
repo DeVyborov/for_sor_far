@@ -66,5 +66,23 @@ namespace vyborov_test_1.Forms
             panel1.Controls.Add(user_Info);
             user_Info.Show();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            panel1.Controls.Clear();
+            backet_form backet_Form = new backet_form() { Dock = DockStyle.Fill, TopLevel = false, TopMost = true };
+            panel1.Controls.Add(backet_Form);
+            backet_Form.Show();
+
+            label1.Visible = true;
+            button5.Visible = true;
+
+            label1.Text = StaticVars.itog_summ.ToString() + "руб.";
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Формирование заказа!");
+        }
     }
 }

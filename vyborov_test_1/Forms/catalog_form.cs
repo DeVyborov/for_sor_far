@@ -55,7 +55,7 @@ namespace vyborov_test_1.Forms
 
                 for(int i = get_count-1; i >= 0; i--)
                 {
-                    book_info_panel book_Info_Panel = new book_info_panel(logins[i], password[i], Convert.ToInt32(ids[i]), StaticVars.user_role) { Dock = DockStyle.Top};
+                    book_info_panel book_Info_Panel = new book_info_panel(logins[i], password[i], Convert.ToInt32(ids[i]), StaticVars.user_role, "0", "") { Dock = DockStyle.Top};
                     panel1.Controls.Add(book_Info_Panel);
                 }
                 SQLclass.CloseConnection();

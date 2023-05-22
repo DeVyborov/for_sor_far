@@ -23,8 +23,10 @@ namespace vyborov_test_1.Forms
         string user_role;
         int id;
         int count_backet = 0;
+        string type;
+        string count_book;
 
-        public book_info_panel(string login_info_form, string password_info_form, int form_id, string user_role_form)
+        public book_info_panel(string login_info_form, string password_info_form, int form_id, string user_role_form, string type_form, string count_book_form)
         {
             InitializeComponent();
 
@@ -32,16 +34,33 @@ namespace vyborov_test_1.Forms
             password_info = password_info_form;
             user_role = user_role_form;
             id = form_id;
+            type = type_form;
+            count_book = count_book_form;
 
-            label1.Text = "Товар: " + login_info;
-            label2.Text = "Цена:" + password_info + "руб.";
-
-            if(user_role == "0" || user_role == "1") // гость and покупатель
+            if(type == "0") // каталог
             {
-                button1.Visible = false;
-            }
+                label1.Text = "Товар: " + login_info;
+                label2.Text = "Цена:" + password_info + "руб.";
 
-            button1.Text = "Редактировать: " + id.ToString();
+                if (user_role == "0" || user_role == "1") // гость and покупатель
+                {
+                    button1.Visible = false;
+                }
+
+                button1.Text = "Редактировать: " + id.ToString();
+            }
+            else if (type == "1") // корзина
+            {
+                btn_add.Visible = false;
+                button1.Visible = false;
+                button2.Visible = false;
+                textBox1.Visible = false;
+                button3.Visible = false;
+
+                label1.Text = "Товар: " + password_info_form;
+                label2.Text = "Количество:" + count_book + "\n" + "Итоговая сумма: " + Convert.ToInt32(id) * Convert.ToInt32(count_book) + "руб.";
+                StaticVars.itog_summ += Convert.ToInt32(id) * Convert.ToInt32(count_book);
+            }          
         }
 
         private void btn_add_Click(object sender, EventArgs e)
@@ -70,7 +89,8 @@ namespace vyborov_test_1.Forms
             btn_add.BackColor = Color.Red;
             count_backet++;
             textBox1.Text = count_backet.ToString();
-            Backet_Logic(id, count_backet);
+            StaticVars.basket.Add(id.ToString());
+            StaticVars.count_book[StaticVars.basket.IndexOf(id.ToString())] = count_backet; 
         }
 
         public void DeleteBacket()
@@ -80,7 +100,8 @@ namespace vyborov_test_1.Forms
             btn_add.BackColor = Color.AliceBlue;
             count_backet = 0;
             textBox1.Text = count_backet.ToString();
-            Backet_Logic(id, count_backet);
+            StaticVars.basket.Remove(id.ToString());
+            StaticVars.count_book[StaticVars.basket.IndexOf(id.ToString())] = 0;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -94,7 +115,7 @@ namespace vyborov_test_1.Forms
                 count_backet++;
                 textBox1.Text = count_backet.ToString();
                 button2.Enabled = true;
-                Backet_Logic(id, count_backet);
+                StaticVars.count_book[StaticVars.basket.IndexOf(id.ToString())] = count_backet;
             }
         }
 
@@ -108,55 +129,9 @@ namespace vyborov_test_1.Forms
             {
                 count_backet--;
                 textBox1.Text = count_backet.ToString();
-                Backet_Logic(id, count_backet);
+                StaticVars.count_book[StaticVars.basket.IndexOf(id.ToString())] = count_backet;
             }
-        }
-
-        public void Backet_Logic(int id_tovar, int count_tovar)
-        {
-            //if(count_tovar == 0)
-            //{
-            //    if(StaticVars.basket_tovar_one_count == count_tovar && StaticVars.basket_tovar_one_id == id_tovar)
-            //    {
-            //        StaticVars.basket_tovar_one_id = 0;
-            //        StaticVars.basket_tovar_one_count = 0;
-            //    }
-            //    else if (StaticVars.basket_tovar_two_count == count_tovar && StaticVars.basket_tovar_two_id == id_tovar)
-            //    {
-            //        StaticVars.basket_tovar_two_id = 0;
-            //        StaticVars.basket_tovar_two_count = 0;
-            //    }
-            //    else if (StaticVars.basket_tovar_three_count == count_tovar && StaticVars.basket_tovar_three_id == id_tovar)
-            //    {
-            //        StaticVars.basket_tovar_three_id = 0;
-            //        StaticVars.basket_tovar_three_count = 0;
-            //    }
-            //}
-            //else 
-            //{
-            //    if (StaticVars.basket_tovar_one_id == 0)
-            //    {
-            //        StaticVars.basket_tovar_one_id = id_tovar;
-            //        StaticVars.basket_tovar_one_count = count_tovar;
-            //    }
-            //    else if (StaticVars.basket_tovar_one_id != 0 && StaticVars.basket_tovar_two_id == 0)
-            //    {
-            //        StaticVars.basket_tovar_two_id = id_tovar;
-            //        StaticVars.basket_tovar_two_count = count_tovar;
-            //    }
-            //    else if (StaticVars.basket_tovar_two_id != 0 && StaticVars.basket_tovar_three_id == 0)
-            //    {
-            //        StaticVars.basket_tovar_three_id = id_tovar;
-            //        StaticVars.basket_tovar_three_count = count_tovar;
-            //    }              
-            //    else
-            //    {
-            //        MessageBox.Show(StaticVars.basket_tovar_one_id.ToString() + "\n" + StaticVars.basket_tovar_one_count.ToString() + "\n" +
-            //            StaticVars.basket_tovar_two_id.ToString() + "\n" + StaticVars.basket_tovar_two_count.ToString() + "\n" +
-            //            StaticVars.basket_tovar_three_id.ToString() + "\n" + StaticVars.basket_tovar_three_count.ToString());
-            //    }
-            //}           
-        }
+        }       
 
         private void button1_Click(object sender, EventArgs e)
         {

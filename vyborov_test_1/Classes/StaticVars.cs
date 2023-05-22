@@ -14,19 +14,9 @@ namespace vyborov_test_1.Classes
 
         public static Panel panel = null;
 
-        public static int basket_tovar_one_id = 0;
-        public static int basket_tovar_one_count = 0;
+        public static List<string> basket = new List<string>();
+        public static int[] count_book = new int[100];
 
-        public static int basket_tovar_two_id = 0;
-        public static int basket_tovar_two_count = 0;
-
-        public static int basket_tovar_three_id = 0;
-        public static int basket_tovar_three_count = 0;
-
-        public static int basket_tovar_four_id = 0;
-        public static int basket_tovar_four_count = 0;
-
-        public static int basket_tovar_five_id = 0;
-        public static int basket_tovar_five_count = 0;
+        public static int itog_summ = 0; 
     }
 }
